@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Souq7 Grand Opening</title>
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: url('countdown.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  h1 {
+    font-size: 6vw;
+    color: #FFD700;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+  }
+  .countdown {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(0,0,0,0.45);
+    padding: 20px 50px;
+    border-radius: 15px;
+  }
+  .time-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+  }
+  .number {
+    font-size: 9vw;
+    font-weight: 700;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  }
+  .label {
+    font-size: 2.5vw;
+    margin-top: 10px;
+  }
+  .separator {
+    font-size: 9vw;
+    color: #FFD700;
+    padding: 0 20px;
+    line-height: 1;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+    user-select: none;
+  }
+  #fullscreenBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+</style>
+</head>
+<body>
+
+<h1>Souq7 Grand Opening</h1>
+
+<div class="countdown" aria-live="polite">
+  <div class="time-section">
+    <div id="days" class="number">00</div>
+    <div class="label">Days</div>
+  </div>
+
+  <div class="separator">:</div>
+
+  <div class="time-section">
+    <div id="hours" class="number">00</div>
+    <div class="label">Hours</div>
+  </div>
+
+  <div class="separator">:</div>
+
+  <div class="time-section">
+    <div id="minutes" class="number">00</div>
+    <div class="label">Minutes</div>
+  </div>
+</div>
+
+<button id="fullscreenBtn" onclick="openFullscreen()">Full Screen</button>
+
+<script>
+  const targetDate = new Date("2025-12-04T19:00:00");
+
+  function pad(n) {
+    return n < 10 ? "0" + n : n;
+  }
+
+  function updateCountdown() {
+    const now = new Date();
+    let diff = Math.floor((targetDate - now) / 1000);
+
+    if (diff <= 0) {
+      document.querySelector(".countdown").innerHTML = '<div style="font-size:6vw;padding:24px;background:rgba(0,0,0,0.5);border-radius:10px;">Time\'s up ✅</div>';
+      clearInterval(interval);
+      return;
+    }
+
+    const days = Math.floor(diff / 86400);
+    diff %= 86400;
+    const hours = Math.floor(diff / 3600);
+    diff %= 3600;
+    const minutes = Math.floor(diff / 60);
+
+    document.getElementById("days").textContent = pad(days);
+    document.getElementById("hours").textContent = pad(hours);
+    document.getElementById("minutes").textContent = pad(minutes);
+  }
+
+  updateCountdown();
+  const interval = setInterval(updateCountdown, 1000);
+
+  function openFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  }
+</script>
+
+</body>
+</html>
